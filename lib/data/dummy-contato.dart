@@ -22,7 +22,7 @@ const DUMMY_CONTATOS = {
 
   '3': const Contato (
    id: '3', 
-   name: 'Vinicius Cenourinha', 
+   name: 'Vinicius Gonçalves', 
    email: 'cenoura@dasilva.com.br', 
    cell: '44999999999', 
    dtnasc: '25/07/2000', 

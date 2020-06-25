@@ -1,7 +1,9 @@
 import 'package:agenda_oficial/models/contatos.dart';
+import 'package:agenda_oficial/provider/contatosprv.dart';
 import 'package:agenda_oficial/routes/app-routes.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 
 class ContatosTile extends StatelessWidget{
@@ -44,7 +46,34 @@ class ContatosTile extends StatelessWidget{
               IconButton(
                 icon: Icon(Icons.delete),
                 color: Colors.red, 
-                onPressed: () {},
+                onPressed: () {
+                  showDialog(//box para confirmar ou cancelar ação
+                    context: context,
+                    builder: (ctx) => AlertDialog(
+                      title: Text('Excluir Contato'),
+                      content: Text('Tem Certeza ??'),
+                      actions: <Widget>[
+                        FlatButton(
+                          child: Text('Não'),
+                          onPressed: (){
+                            Navigator.of(context).pop();//fechar dialog
+                          }, 
+                       
+                        ),
+                        FlatButton(
+                          child: Text('Sim'),
+                          onPressed: (){
+                              Provider.of<ContatosProvider>(
+                                context, listen: false)
+                                .remove(contatos); //Confirma a exclusão dos contatos
+                                Navigator.of(context).pop();//fechar dialog
+                          }, 
+                        ),
+                      ],
+                    ),
+                  );
+                
+                },
                 ),
          ]),
       )

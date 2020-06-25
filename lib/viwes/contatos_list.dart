@@ -14,7 +14,10 @@ class ListaContatos extends StatelessWidget{
     //importar a classe da lista mocup para pré-exibição
     final ContatosProvider contatos = Provider.of(context);
 
-    return Scaffold
+    //Estou utilizando esta maneira alternativa (Willpop) apenas para evitar de voltar quando vier da edição a partir do vizualizar.
+    return new WillPopScope(
+    onWillPop: () async => false,
+    child: new Scaffold
     (appBar: AppBar(
       title: Text('Lista de Contatos'),
        actions: <Widget>[   
@@ -42,7 +45,8 @@ class ListaContatos extends StatelessWidget{
               );
             },
         ),
-    );
+    )
+  );
   }
 
 }
