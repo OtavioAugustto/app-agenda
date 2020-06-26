@@ -5,28 +5,29 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 // import 'package:email_validator/email_validator.dart'; //DEU PROBLEMA !!
 
-class ContatoForm extends StatelessWidget {
+class ContatoForm extends StatefulWidget {
 
-  final _formKey = GlobalKey<FormState>();// chave do form
-  final Map<String, String> _formData ={}; // objeto que recebe os dados do form
-  
+  @override
+  _ContatoFormState createState() => _ContatoFormState();
+}
 
-   // Variáveis que controla o Tab Index no formulário
+class _ContatoFormState extends State<ContatoForm> {
+  final _formKey = GlobalKey<FormState>();
+  final Map<String, String> _formData ={}; 
+
+
   final FocusNode nomeIndex = FocusNode();  
   final FocusNode emailIndex = FocusNode();  
   final FocusNode nascIndex = FocusNode();
   final FocusNode cellIndex = FocusNode();  
   final FocusNode possuiWhatsIndex = FocusNode();
 
-  //Método que Controla o TabIndex
   _fieldFocusChange(BuildContext context, FocusNode currentFocus,FocusNode nextFocus) {
     currentFocus.unfocus();
     FocusScope.of(context).requestFocus(nextFocus);  
   }
 
-  final bool stPossuiWhats = true; // variável par situação do marcador de wats
-
-   // Validação do campo Celular
+  bool stPossuiWhats = false; 
   String _validarCelular(String value) {
     String patttern = r'(^[0-9]*$)';
     RegExp regExp = new RegExp(patttern);
@@ -40,18 +41,6 @@ class ContatoForm extends StatelessWidget {
     return null;  
   }
 
-  // DEU PROBLEMA NA IMPLEMENTAÇÃO
-  // // Validação do campo e-mail
-  // String _validarEmail(String value) {
-  //   if(!EmailValidator.Validate(value, true)) {
-  //     return 'E-mail inválido!';
-  //   } else {
-  //     return null;
-  //   }
-  // }
-
-
-  
   @override
 
   Widget build(BuildContext context){
@@ -148,10 +137,10 @@ class ContatoForm extends StatelessWidget {
                 Switch(
                   value: stPossuiWhats,
                   onChanged: (value) { //OBS: PRECISA DE AJUSTE NA QUESTÃO DO SET STATE
-                    //  setState(() {
-                    //     _formData['havewats'] = stPossuiWhats;
-                    //    stPossuiWhats = value;
-                    //  });
+                      setState(() {
+                        // _formData['havewats'] = stPossuiWhats; dando erro ao inserir valor bool em string
+                        stPossuiWhats = value;
+                      });
                   },
                   activeTrackColor: Colors.lime, 
                   activeColor: Colors.lightGreen,
@@ -173,7 +162,7 @@ class ContatoForm extends StatelessWidget {
                              email: _formData[ 'email'],
                              dtnasc: _formData[ 'dtnasc'], 
                              cell: _formData[ 'cell'],
-                             havewats:true, //ajustar depois
+                             havewats:true, //ajustar depois dando erro ao inserir boll em string
                           ),
                         );
                           Navigator.of(context).pop();

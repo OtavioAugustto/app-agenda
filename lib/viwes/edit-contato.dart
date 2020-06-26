@@ -6,27 +6,39 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 // import 'package:email_validator/email_validator.dart'; //DEU PROBLEMA !!
 
-class EditContatoForm extends StatelessWidget {
+class EditContatoForm extends StatefulWidget {
   
- final _formKey = GlobalKey<FormState>();// chave do form
-  final Map<String, String> _formData ={}; // objeto que recebe os dados do form
-  
-   // Variáveis que controla o Tab Index no formulário
+  @override
+  _EditContatoFormState createState() => _EditContatoFormState();
+}
+
+class _EditContatoFormState extends State<EditContatoForm> {
+ final _formKey = GlobalKey<FormState>();
+  final Map<String, String> _formData ={}; 
   final FocusNode nomeIndex = FocusNode();  
+
   final FocusNode emailIndex = FocusNode();  
+
   final FocusNode nascIndex = FocusNode();
+
   final FocusNode cellIndex = FocusNode();  
+
   final FocusNode possuiWhatsIndex = FocusNode();
 
-  //Método que Controla o TabIndex
+    @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+      final Contato contato = ModalRoute.of(context).settings.arguments; // instância para identificar o contato clicado
+      _loadFormData(contato); // carrega métodoque traz os dados do contato.
+
+  }
+
   _fieldFocusChange(BuildContext context, FocusNode currentFocus,FocusNode nextFocus) {
     currentFocus.unfocus();
     FocusScope.of(context).requestFocus(nextFocus);  
   }
 
-  final bool stPossuiWhats = true; // variável par situação do marcador de wats
-
-   // Validação do campo Celular
+  bool stPossuiWhats = true; 
   String _validarCelular(String value) {
     String patttern = r'(^[0-9]*$)';
     RegExp regExp = new RegExp(patttern);
@@ -40,17 +52,6 @@ class EditContatoForm extends StatelessWidget {
     return null;  
   }
 
-  // DEU PROBLEMA NA IMPLEMENTAÇÃO
-  // // Validação do campo e-mail
-  // String _validarEmail(String value) {
-  //   if(!EmailValidator.Validate(value, true)) {
-  //     return 'E-mail inválido!';
-  //   } else {
-  //     return null;
-  //   }
-  // }
-
-  //metodo para carregar os dados de contato para edição.
   void _loadFormData(Contato contato){
     if(contato != null){
        _formData['id'] = contato.id;
@@ -58,18 +59,13 @@ class EditContatoForm extends StatelessWidget {
        _formData['email'] = contato.email;
        _formData['dtnasc'] = contato.dtnasc;
        _formData['cell'] = contato.cell;
-      //  _formData['havewats'] = contato.havewats as String; Ajustar primeiro o set state antes de utilizar
+      //  _formData['havewats'] = contato.havewats as String // Erro ao passar bool ao map de string
     }
   }
 
-  
   @override
 
   Widget build(BuildContext context){
-
-    final Contato contato = ModalRoute.of(context).settings.arguments; // instância para identificar o contato clicado
-
-    _loadFormData(contato); // carrega métodoque traz os dados do contato.
 
     return Scaffold(  
       appBar: AppBar(
@@ -167,11 +163,11 @@ class EditContatoForm extends StatelessWidget {
                 Text('Verde para SIM ou deixe Cinza para NÃO'),
                 Switch(
                   value: stPossuiWhats,
-                  onChanged: (value) { //OBS: PRECISA DE AJUSTE NA QUESTÃO DO SET STATE
-                    //  setState(() {
-                    //     _formData['havewats'] = stPossuiWhats;
-                    //    stPossuiWhats = value;
-                    //  });
+                  onChanged: (value) { 
+                      setState(() {
+                        //  _formData['havewats'] = stPossuiWhats; // Erro ao passar bool para map de string
+                        stPossuiWhats = value;
+                      });
                   },
                   activeTrackColor: Colors.lime, 
                   activeColor: Colors.lightGreen,
@@ -193,7 +189,7 @@ class EditContatoForm extends StatelessWidget {
                              email: _formData[ 'email'],
                              dtnasc: _formData[ 'dtnasc'], 
                              cell: _formData[ 'cell'],
-                             havewats:true, //ajustar depois
+                             havewats:true, //ajustar depois Erro ao passar bool ao map de string
                           ),
                         );
                           Navigator.of(context).pushNamed(

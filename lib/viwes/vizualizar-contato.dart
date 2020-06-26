@@ -3,27 +3,31 @@ import 'package:agenda_oficial/routes/app-routes.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class VizualizarContatoForm extends StatelessWidget {
+class VizualizarContatoForm extends StatefulWidget {
   
- final _formKey = GlobalKey<FormState>();// chave do form
-  final Map<String, String> _formData ={}; // objeto que recebe os dados do form
-  
-   // Variáveis que controla o Tab Index no formulário
+  @override
+  _VizualizarContatoFormState createState() => _VizualizarContatoFormState();
+}
+
+class _VizualizarContatoFormState extends State<VizualizarContatoForm> {
+ final _formKey = GlobalKey<FormState>();
+  final Map<String, String> _formData ={}; 
   final FocusNode nomeIndex = FocusNode();  
+
   final FocusNode emailIndex = FocusNode();  
+
   final FocusNode nascIndex = FocusNode();
+
   final FocusNode cellIndex = FocusNode();  
+
   final FocusNode possuiWhatsIndex = FocusNode();
 
-  //Método que Controla o TabIndex
   _fieldFocusChange(BuildContext context, FocusNode currentFocus,FocusNode nextFocus) {
     currentFocus.unfocus();
     FocusScope.of(context).requestFocus(nextFocus);  
   }
 
-  final bool stPossuiWhats = true; // variável par situação do marcador de wats
-
-   // Validação do campo Celular
+  final bool stPossuiWhats = true; 
   String _validarCelular(String value) {
     String patttern = r'(^[0-9]*$)';
     RegExp regExp = new RegExp(patttern);
@@ -37,10 +41,8 @@ class VizualizarContatoForm extends StatelessWidget {
     return null;  
   }
 
-  //controlar texto de situação do wats
   TextEditingController haveWhatsController = TextEditingController();
 
-  //metodo para carregar os dados de contato para edição.
   void _loadFormData(Contato contato){
     if(contato != null){
        _formData['id'] = contato.id;
@@ -57,8 +59,6 @@ class VizualizarContatoForm extends StatelessWidget {
     }
   }
 
-
-  
   @override
 
   Widget build(BuildContext context){

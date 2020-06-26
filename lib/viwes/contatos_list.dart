@@ -6,7 +6,29 @@ import 'package:provider/provider.dart';
 import 'package:agenda_oficial/provider/contatosprv.dart';
 import 'dart:io';
 
-class ListaContatos extends StatelessWidget{
+
+class ListaContatos extends StatefulWidget{
+
+  @override
+  _ListaContatosState createState() => _ListaContatosState();
+}
+
+class _ListaContatosState extends State<ListaContatos> {
+
+
+  //alterado by: Otávio Augusto - 04-05-2020 - Variáveis para Implementar ações na barra de busca
+  String appTitle ="Lista de Contatos";
+  bool searchEnabled = false;
+
+  //Método para trocar estado da Search Bar
+  _switchSearchBarState(){
+    setState(() {
+      searchEnabled = !searchEnabled;
+    });
+  }// encerrando método Searchbar
+
+  //filtro da barra de pesquisa
+  String filterText ="";
 
   @override
   
@@ -19,11 +41,27 @@ class ListaContatos extends StatelessWidget{
     onWillPop: () async => false,
     child: new Scaffold
     (appBar: AppBar(
-      title: Text('Lista de Contatos'),
-       actions: <Widget>[   
-            IconButton( //Botão de Pesquisa
-              icon: Icon(Icons.search),
-              onPressed: () {},
+      title: !searchEnabled ? Text(appTitle): // Implementando ações na barra de busca
+          //barra para digitar busca
+          TextField(
+            style: new TextStyle(
+              color: Colors.white,
+            ),
+            decoration: new InputDecoration(
+              hintText: "Search...",
+              hintStyle: new TextStyle(color:Colors.white)
+              ),
+            //ação para pesquisar
+             onChanged: (text){
+
+             }, 
+            ),
+            actions: <Widget>[
+            IconButton(
+              icon: Icon(searchEnabled ? Icons.close : Icons.search), //validação para mudar o ícone de pesquisa por 'X' para sair do estado.
+              onPressed: () {
+                _switchSearchBarState(); //chamando a função para mudar o estado da barra 
+              },
             ),
             IconButton( //Botão para saír da aplicação
               icon: Icon(Icons.exit_to_app),
@@ -48,5 +86,4 @@ class ListaContatos extends StatelessWidget{
     )
   );
   }
-
 }

@@ -6,12 +6,17 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 
-class ContatosTile extends StatelessWidget{
+class ContatosTile extends StatefulWidget{
   
   //Instância de contatos
   final Contato contatos;
   const ContatosTile(this.contatos);
 
+  @override
+  _ContatosTileState createState() => _ContatosTileState();
+}
+
+class _ContatosTileState extends State<ContatosTile> {
   @override
   
   Widget build(BuildContext context) {
@@ -21,12 +26,12 @@ class ContatosTile extends StatelessWidget{
       leading: CircleAvatar(
         backgroundImage: NetworkImage('http://www.liliamribas.com.br/wp-content/uploads/2016/09/default-user-img.jpg'),
       ),
-         title: Text(contatos.name), //acessa nome do contato no array de contatos
-         subtitle: Text(contatos.cell),//acessa número de telefone no array de contatos
+         title: Text(widget.contatos.name), //acessa nome do contato no array de contatos
+         subtitle: Text(widget.contatos.cell),//acessa número de telefone no array de contatos
          onTap: (){
            Navigator.of(context).pushNamed( //puxa a rota pelo nome, colocando uma viwew em cima da outra com a seta para voltar.
              AppRoutes.VCONTATO_FORM,
-             arguments: contatos, //trará o contato que eu quero visualizar e irá enviar os dados para o form
+             arguments: widget.contatos, //trará o contato que eu quero visualizar e irá enviar os dados para o form
            );
          },
          trailing: Container(
@@ -39,7 +44,7 @@ class ContatosTile extends StatelessWidget{
                 onPressed: () {
                   Navigator.of(context).pushNamed(//puxa a rota pelo nome, colocando uma viwew em cima da outra com a seta para voltar. 
                     AppRoutes.ECONTATO_FORM,
-                    arguments: contatos, //enviará o contato que eu quero editar e irá enviar os dados para o form
+                    arguments: widget.contatos, //enviará o contato que eu quero editar e irá enviar os dados para o form
                    );
                   },
                 ),
@@ -65,7 +70,7 @@ class ContatosTile extends StatelessWidget{
                           onPressed: (){
                               Provider.of<ContatosProvider>(
                                 context, listen: false)
-                                .remove(contatos); //Confirma a exclusão dos contatos
+                                .remove(widget.contatos); //Confirma a exclusão dos contatos
                                 Navigator.of(context).pop();//fechar dialog
                           }, 
                         ),
